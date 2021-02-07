@@ -1,0 +1,89 @@
+excluded_dirs:
+  - ".git"
+  - ".idea"
+  - "cache"
+  - "export"
+  - "logfiles"
+  - "logs"
+  - "templates_c"
+  - "test"
+  - "admin/templates_c"
+  - "uploads/attachements"
+  - "uploads/tmp"
+
+htaccessContent: "# Apache 2.2
+                  <IfModule !mod_authz_core.c>
+                     Order deny,allow
+                     Deny from all
+                  </IfModule>
+
+                  # Apache 2.4
+                  <IfModule mod_authz_core.c>
+                      Require all denied
+                  </IfModule>"
+
+files_to_add:
+  #  - { path: "test/test/.htaccess", content: "Deny from all" }
+  - { path: "logfiles/.htaccess", content: "Deny from all" }
+  - { path: "cache/index.html", content: "%htaccessContent%" }
+  - { path: "cache/.htaccess", content: "%htaccessContent%" }
+  - { path: "logfiles/.htaccess", content: "%htaccessContent%" }
+  - { path: "logfiles/index.html", content: "<html></html>" }
+  - { path: "logs/.htaccess", content: "%htaccessContent%" }
+  - { path: "templates_c/.htaccess", content: "%htaccessContent%" }
+  - { path: "uploads/.htaccess", content: "%htaccessContent%" }
+  - { path: "uploads/index.html", content: "<html></html>" }
+
+replacements:
+  /includes/configure.php:
+    - { replace: "|define\\(\\'DB_SERVER\\', \\'(.*)\\'\\);|",
+        replaceWith: "define('DB_SERVER', 'localhost');" }
+    - { replace: "|define\\(\\'DB_SERVER_NAME\\', \\'(.*)\\'\\);|",
+        replaceWith: "define('DB_SERVER_NAME', 'iyc');" }
+    - { replace: "|define\\(\\'DB_SERVER_USERNAME\\', \\'(.*)\\'\\);|",
+        replaceWith: "define('DB_SERVER_USERNAME', 'iyc');" }
+    - { replace: "|define\\(\\'DB_SERVER_PASSWORD\\', \\'(.*)\\'\\);|",
+        replaceWith: "define('DB_SERVER_PASSWORD', 'iyc');" }
+    - { replace: "|define\\(\\'DB_DATABASE\\', \\'(.*)\\'\\);|",
+        replaceWith: "define('DB_DATABASE', 'iyc');" }
+    - { replace: "|define\\(\\'HTTP_SERVER\\', \\'(.*)\\'\\);|",
+        replaceWith: "define('HTTP_SERVER', 'http://iyc.cu');" }
+    - { replace: "|define\\(\\'HTTPS_SERVER\\', \\'(.*)\\'\\);|",
+        replaceWith: "define('HTTPS_SERVER', 'http://iyc.cu');" }
+    - { replace: "|define\\(\\'ENABLE_SSL\\', .*|",
+        replaceWith: "define('ENABLE_SSL', false);" }
+    - { replace: "|\\$t_document_root\\s*=\\s*'/.*|",
+        replaceWith: "$t_document_root = '%docRoot%';" }
+  /admin/includes/configure.php:
+    - { replace: "|define\\(\\'DB_SERVER\\', \\'(.*)\\'\\);|",
+        replaceWith: "define('DB_SERVER', 'localhost');" }
+    - { replace: "|define\\(\\'DB_SERVER_NAME\\', \\'(.*)\\'\\);|",
+        replaceWith: "define('DB_SERVER_NAME', 'iyc');" }
+    - { replace: "|define\\(\\'DB_SERVER_USERNAME\\', \\'(.*)\\'\\);|",
+        replaceWith: "define('DB_SERVER_USERNAME', 'iyc');" }
+    - { replace: "|define\\(\\'DB_SERVER_PASSWORD\\', \\'(.*)\\'\\);|",
+        replaceWith: "define('DB_SERVER_PASSWORD', 'iyc');" }
+    - { replace: "|define\\(\\'DB_DATABASE\\', \\'(.*)\\'\\);|",
+        replaceWith: "define('DB_DATABASE', 'iyc');" }
+    - { replace: "|define\\(\\'HTTP_SERVER\\',\\s*\\'(.*)\\'\\);|",
+        replaceWith: "define('HTTP_SERVER', 'http://iyc.cu');" }
+    - { replace: "|define\\(\\'HTTPS_SERVER\\',\\s*\\'(.*)\\'\\);|",
+        replaceWith: "define('HTTPS_SERVER', 'http://iyc.cu');" }
+    - { replace: "|define\\(\\'ENABLE_SSL.*|",
+        replaceWith: "define('ENABLE_SSL', false);" }
+    - { replace: "|\\$t_document_root\\s*=\\s*'/.*|",
+        replaceWith: "$t_document_root = '%docRoot%';" }
+    - { replace: "|define\\(\\'HTTP_CATALOG_SERVER\\', .*|",
+        replaceWith: "define('HTTP_CATALOG_SERVER', 'http://iyc.cu');" }
+    - { replace: "|define\\(\\'HTTPS_CATALOG_SERVER\\', .*|",
+        replaceWith: "define('HTTPS_CATALOG_SERVER', 'http://iyc.cu');" }
+    - { replace: "|\\$t_document_root\\s*=\\s*'/.*|",
+        replaceWith: "$t_document_root = '%docRoot%';" }
+
+local_db_data:
+  server: "localhost"
+  username: "iyc"
+  password: "iyc"
+  db_name: "iyc"
+
+local_server_name: iyc.myc
